@@ -59,6 +59,11 @@
     <!-- compile the source code -->
     <target name="compile" depends="init" description="Compile source code" >
         <javac srcdir="src" destdir="bin" includeantruntime="false" />
+        <copy todir="${build.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.fxml" />
+            </fileset>
+        </copy>
     </target>
 
     <!-- compile the test code -->
@@ -83,4 +88,20 @@
         </junit>
     </target>
 
+    <target name="jar" depends="compile"
+            description="Create runnable JAR file of project">
+        <jar destfile="dist/tictactoe.jar"
+             basedir="${build.dir}">
+            <manifest>
+                <attribute name = "Main-Class" value="tictactoe.Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="dist/tictactoe.jar" fork="true"/>
+    </target>
+
+
 </project>
+
